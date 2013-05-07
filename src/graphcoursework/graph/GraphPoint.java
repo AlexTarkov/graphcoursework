@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphcoursework.components;
+package graphcoursework.graph;
 
 /**
  *
  * @author alex
  */
-public class GraphLine {
+public class GraphPoint {
     
 }

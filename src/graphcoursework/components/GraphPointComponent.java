@@ -11,28 +11,33 @@ import java.awt.*;
  *
  * @author alex
  */
-public class GraphPoint extends JComponent{
+public class GraphPointComponent extends JComponent{
     
-    public static final int COMPONENT_SIZE = 30;
+    public static final int COMPONENT_SIZE = 60;
     
     public static final int SIZE = COMPONENT_SIZE - 1;
 
     public static final Color SELECT_COLOR = Color.GREEN;
     public static final Color NOSELECT_COLOR = Color.BLACK;
     
-    public static final int CIRCLE_RAD_SELECT = SIZE / 2;
-    public static final int CIRCLE_RAD_NOSELECT = SIZE / 2;
+    public static final int CIRCLE_RAD_SELECT = (SIZE / 2) / 2;
+    public static final int CIRCLE_RAD_NOSELECT = (SIZE / 2) / 2;
     
-    public static final int CIRCLE_BORDER_RAD_SELECT = SIZE - 1;
-    public static final int CIRCLE_BORDER_RAD_NOSELECT = SIZE - 1;
+    public static final int CIRCLE_BORDER_RAD_SELECT = (SIZE - 1) / 2;
+    public static final int CIRCLE_BORDER_RAD_NOSELECT = (SIZE - 1) / 2;
     
     private boolean isSelected = false;
     
     private int x, y;
+    private int centerx, centery;
     
     @Override
     public Point getLocation() {
         return new Point(x, y);
+    }
+    
+    public Point getCenter() {
+        return new Point(centerx, centery);
     }
     
     @Override
@@ -55,10 +60,12 @@ public class GraphPoint extends JComponent{
 //    }
 
     
-    public GraphPoint(int x, int y) {
+    public GraphPointComponent(int x, int y) {
         setOpaque(true);
         this.x = x - SIZE / 2;
         this.y = y - SIZE / 2;
+        this.centerx = x;
+        this.centery = y;
         //setOpaque(true);
     }
     
@@ -82,29 +89,25 @@ public class GraphPoint extends JComponent{
         g2d.setColor(col);
         //g2d.setBackground(col);
         
-        g2d.fillOval((SIZE - rad) / 2, (SIZE - rad) / 2, rad, rad);
-        g2d.drawOval(0, 0, radbor, radbor);
+        g2d.fillOval((SIZE / 2) - rad, (SIZE / 2) - rad, rad * 2, rad * 2);
+        g2d.drawOval(0, 0, radbor * 2, radbor * 2);
+        
+        // DRAW BORDER
+        g2d.drawRect(0, 0, SIZE - 1, SIZE - 1);
+        
         System.out.println("GraphPoint.paintComponent");
+
         
-        
-        
-        //super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D)g;
-//        //g2d.setClip(0,0, getWidth(), getHeight() * 2);
-//        //g2d.setClip(getWidth() / 4, getHeight() / 4, getWidth() / 2, getHeight() / 2);
-//        
-//        g2d.setColor(Color.blue);
-//        g2d.fillOval(10, 10, getWidth() - 20, getHeight() * 2 - 20);
-//        g2d.setColor(Color.red);
-//        g2d.fillOval(20, 20, getWidth() - 40, getHeight() - 40);
-//        g2d.setColor(Color.yellow);
-//        g2d.fillOval(30, 30, getWidth() - 60, getHeight() - 60);
-//        g2d.setColor(Color.black);
-//        g2d.fillOval(getWidth()/4 - getWidth()/16, getHeight()/2-getHeight()/8, getWidth()/8, getHeight()/8);
-//        g2d.fillOval(getWidth()*3/4 - getWidth()/16, getHeight()/2-getHeight()/8, getWidth()/8, getHeight()/8);
-//        g2d.setStroke(new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-//        g2d.drawArc(getWidth()/4, getHeight()/4, getWidth()/2, getHeight()/2, 225, 90);
-        
+    }
+    
+    @Override
+    public boolean contains(int x, int y) {
+        //System.out.println("contains");
+        //return super.contains(x, y);
+        int radbor = isSelected ? CIRCLE_BORDER_RAD_SELECT :  CIRCLE_BORDER_RAD_NOSELECT;
+        //return false; //x * x
+        int xx = x - radbor, yy = y - radbor;
+        return (xx * xx) + (yy * yy) <= (radbor * radbor);
     }
     
     public void remove() {

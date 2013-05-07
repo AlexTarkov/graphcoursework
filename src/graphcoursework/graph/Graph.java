@@ -5,12 +5,20 @@
 package graphcoursework.graph;
 
 import graphcoursework.components.*;
+import java.util.*;
 
 /**
  *
  * @author alex
  */
 public class Graph {
+    
+    //private Ar
+    
+    public Graph() {
+        //points = new 
+    }
+    
     void addPoint(GraphPoint gp) {
         
     }

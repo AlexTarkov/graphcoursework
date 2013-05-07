@@ -118,6 +118,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConnect(evt);
+            }
+        });
+        
         jPanel2.setLayout(null);
         
         //jPanel2.add;
@@ -126,10 +133,11 @@ public class Main extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("mouseClicked - " + e.getButton());
-                System.out.println("mouseClicked - " + e.getX() + " : " + e.getY());
+                //System.out.println("mouseClicked - " + e.getButton());
+                //System.out.println("mouseClicked - " + e.getX() + " : " + e.getY());
+                System.out.println("mouseClicked JPanel2");
                 if (e.getButton() == 3) {
-                    GraphPoint gp = new GraphPoint(e.getX(), e.getY());
+                    GraphPointComponent gp = new GraphPointComponent(e.getX(), e.getY());
                     JPanelAddGraphPoint(jPanel2, gp);
                 }
                 if (e.getButton() == 1) {
@@ -165,7 +173,7 @@ public class Main extends javax.swing.JFrame {
         //jPanel2.setLayout(null);
         
         System.out.println("jButtonTestClick");
-        GraphPoint gp = new GraphPoint(50, 50);
+        GraphPointComponent gp = new GraphPointComponent(50, 50);
         gp.setSelect(true);
         Component c = jPanel2.add(gp);
         
@@ -183,6 +191,22 @@ public class Main extends javax.swing.JFrame {
         System.out.println(jPanel2.getComponentCount());
     }
     
+    private void jButtonConnect(java.awt.event.ActionEvent evt) {                                         
+        GraphPointComponent g1 = null, g2 = null, gb;
+        for (Component cp : jPanel2.getComponents()) {
+            if (GraphPointComponent.class.isInstance(cp)) {
+                gb = (GraphPointComponent)cp;
+                if (gb.getSelect()) {
+                    g1 = (g1 == null) ? gb : g1;
+                    g2 = ((g2 == null) && (g1 != gb)) ? gb : g2;
+                }
+            }
+        }
+        GraphLineComponent gl = new GraphLineComponent(g1, g2);
+        JPanelAddGraphLine(jPanel2, gl);
+        //jPanel2.repaint();
+    }
+    
     private void jButtonDelete(java.awt.event.ActionEvent evt) {                                         
         jPanel2.removeAll();
         jPanel2.repaint();
@@ -192,14 +216,14 @@ public class Main extends javax.swing.JFrame {
         new Main().setVisible(true);
     }
     
-    private void JPanelAddGraphPoint(JPanel jp, GraphPoint gp) {
+    private void JPanelAddGraphPoint(JPanel jp, GraphPointComponent gp) {
         System.out.println("JPanelAddGraphPoint");
         Component cp = jp.add(gp);
         cp.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                GraphPoint gp = (GraphPoint)e.getSource();
+                GraphPointComponent gp = (GraphPointComponent)e.getSource();
                 Container parent = gp.getParent();
                 System.out.println("ComponentClick!!!");
                 if (e.getButton() == 1) {
@@ -236,11 +260,47 @@ public class Main extends javax.swing.JFrame {
         jp.repaint();
     }
     
+    private void JPanelAddGraphLine(JPanel jp, GraphLineComponent gl) {
+        System.out.println("JPanelAddGraphLine");
+        Component cp = jp.add(gl);
+        cp.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("ComponentLineClick");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //System.out.println("mousePressed - " + e.getButton());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //System.out.println("mouseReleased - " + e.getButton());
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //System.out.println("mouseEntered - " + e.getButton());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //System.out.println("mouseExited - " + e.getButton());
+            }
+        });
+        cp.setLocation(gl.getLocation());
+        cp.setSize(gl.getSize());
+        System.out.println(gl.getSize());
+        jp.repaint();
+    }
+    
     private void JPanelDeselectAll(JPanel jp) {
-        GraphPoint gp;
+        GraphPointComponent gp;
         for (Component cp : jp.getComponents()) {
-            if (GraphPoint.class.isInstance(cp)) {
-                gp = (GraphPoint)cp;
+            if (GraphPointComponent.class.isInstance(cp)) {
+                gp = (GraphPointComponent)cp;
                 gp.setSelect(false);
             }
         }
