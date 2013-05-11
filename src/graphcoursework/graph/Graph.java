@@ -57,7 +57,7 @@ public class Graph {
     public void addPoint(int x, int y) {
         GraphPoint gp = new GraphPoint(this, this.getPOINT_ID());
         GraphPointComponent gpc = new GraphPointComponent(gp, x, y);
-        gp.setGraphPointComponent(gpc);
+        gp.setComponent(gpc);
         this.points.put(gp.getId(), gp);
         
         Component cp = panel.add(gpc);
@@ -68,7 +68,7 @@ public class Graph {
     
     public void removePoint(GraphPoint gp) {
         points.remove(gp.getId());
-        panel.remove(gp.getGraphPointComponent());
+        panel.remove(gp.getComponent());
         panel.repaint();
     }
     
@@ -76,10 +76,10 @@ public class Graph {
         GraphLine gl = new GraphLine(this, getLINE_ID(), gp1, gp2);
         this.lines.put(gl.getId(), gl);
         
-        GraphLineComponent glc = new GraphLineComponent(gl, gp1.getGraphPointComponent(), gp2.getGraphPointComponent());
+        GraphLineComponent glc = new GraphLineComponent(gl, (GraphPointComponent)gp1.getComponent(), (GraphPointComponent)gp2.getComponent());
         //ИЗМЕНИТЬ АПИ СОЗДАНИЯ РЕБРА И ЭТОТ ВЫЗОВ
         
-        gl.setGraphLineComponent(glc);
+        gl.setComponent(glc);
         
         Component cp = panel.add(glc);
         cp.setLocation(glc.getLocation());
@@ -89,8 +89,16 @@ public class Graph {
     
     public void removeLine(GraphLine gl) {
         lines.remove(gl.getId());
-        panel.remove(gl.getGraphLineComponent());
+        panel.remove(gl.getComponent());
         panel.repaint();
+    }
+    
+    public void removeElement(GraphElement ge) {
+        if (GraphLine.class.isInstance(ge)) {
+            removeLine((GraphLine) ge);
+        } else if (GraphPoint.class.isInstance(ge)) {
+            removePoint((GraphPoint)ge);
+        }
     }
     
     //====================================================API
@@ -101,7 +109,7 @@ public class Graph {
         GraphPoint bgp;
         while (it.hasNext()) {
              bgp = it.next().getValue();
-            if (bgp.getGraphPointComponent().getSelect()) {
+            if (bgp.getComponent().getSelect()) {
                 buffer.add(bgp);
             }
         }
@@ -118,11 +126,11 @@ public class Graph {
     public void deselectAll() {
         Iterator<Map.Entry<Integer, GraphPoint>> it1 = points.entrySet().iterator();
         while (it1.hasNext()) {
-            it1.next().getValue().getGraphPointComponent().setSelect(false);
+            it1.next().getValue().getComponent().setSelect(false);
         }
         Iterator<Map.Entry<Integer, GraphLine>> it2 = lines.entrySet().iterator();
         while (it2.hasNext()) {
-            it2.next().getValue().getGraphLineComponent().setSelect(false);
+            it2.next().getValue().getComponent().setSelect(false);
         }
         panel.repaint();
     }

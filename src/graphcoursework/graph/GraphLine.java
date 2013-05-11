@@ -10,20 +10,14 @@ import graphcoursework.components.*;
  *
  * @author alex
  */
-public class GraphLine {
-    
-    private int id;
+public class GraphLine extends GraphElement{
     
     private int weight = -Integer.MIN_VALUE;
     
     private GraphPoint point1, point2;
     
-    private GraphLineComponent component;
-    
-    private Graph graph;
-    
     GraphLine(int id) {
-        this.id = id;
+        super(id);
     }
     
     public void setWeight(int weight) {
@@ -34,29 +28,15 @@ public class GraphLine {
         return weight;
     }
     
-    GraphLine(Graph graph, int id, GraphPoint point1, GraphPoint point2) {
-        this.id = id;
+    GraphLine(Graph g, int id, GraphComponent gc, GraphPoint point1, GraphPoint point2) {
+        super(g, id, gc);
         this.point1 = point1;
         this.point2 = point2;
-        this.graph = graph;
     }
     
-    public int getId() {
-        return id;
+    GraphLine(Graph g, int id, GraphPoint point1, GraphPoint point2) {
+        super(g, id);
+        this.point1 = point1;
+        this.point2 = point2;
     }
-    
-    public GraphLineComponent getGraphLineComponent() {
-        return this.component;
-    }
-    
-    public void setGraphLineComponent(GraphLineComponent glc) {
-        this.component = glc;
-    }
-
-    public Graph getGraph() {
-        return graph;
-    }
-    
-    
-    
 }

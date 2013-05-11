@@ -12,44 +12,20 @@ import graphcoursework.components.*;
  *
  * @author alex
  */
-public class GraphPoint {
-    
-    private int id;
-    
-    private GraphPointComponent component;
-    
-    private Graph graph;
+public class GraphPoint extends GraphElement{
     
     private HashMap<Integer, GraphLine> lines;
     
-    GraphPoint(Graph g, int id, GraphPointComponent gp) {
-        System.out.println("GraphPointInit");
-        this.id = id;
-        this.component = gp;
-        this.graph = g;
+    public GraphPoint(int id) {
+        super(id);
     }
     
-    GraphPoint(Graph g, int id) {
-        System.out.println("GraphPointInit");
-        this.id = id;
-        this.graph = g;
-        //this.component = gp;
+    public GraphPoint(Graph g,int id) {
+        super(g, id);
     }
     
-    public int getId() {
-        return id;
-    }
-    
-    public GraphPointComponent getGraphPointComponent() {
-        return this.component;
-    }
-    
-    public Graph getGraph() {
-        return this.graph;
-    }
-    
-    protected void setGraphPointComponent(GraphPointComponent gpc) {
-        this.component = gpc;
+    public GraphPoint(Graph g, int id, GraphComponent gc) {
+        super(g, id, gc);
     }
     
     public void addLine(GraphLine gl) {
