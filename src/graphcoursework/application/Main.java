@@ -7,6 +7,8 @@ package graphcoursework.application;
 import graphcoursework.components.*;
 import graphcoursework.graph.*;
 
+import static debug.Debug.*;
+
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentListener;
 import java.awt.event.ContainerListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 public class Main extends javax.swing.JFrame {
@@ -25,8 +29,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField widthField;
+    private javax.swing.JButton dijkstraButton;
+    private javax.swing.JTextField distanseField;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton treeButton;
     
     private Graph graph;
+    
+    public static Color TREEANDMINIMUMCOLOR = new Color(204, 0, 0);
     
     public Main() {
         super("Graph Course Work");
@@ -34,7 +45,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     private void initGraph(JPanel jp) {
-        this.graph = new Graph(jp);
+        this.graph = new Graph(jp, widthField);
     }
     
     private void initComponents() {
@@ -46,6 +57,11 @@ public class Main extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        widthField = new javax.swing.JTextField();
+        dijkstraButton = new javax.swing.JButton();
+        distanseField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        treeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,9 +71,12 @@ public class Main extends javax.swing.JFrame {
         jButton1.setText("connect");
         jButton2.setText("clear");
         jButton3.setText("tst");
+        dijkstraButton.setText("get Dijkstra path");
+        jLabel2.setText("Distanse:");
+        treeButton.setText("tree");
         
         initGraph(jPanel2);
-        
+        //--------------------------------------------DONT TOUCH
         setSize(800, 500);
         jPanel2.setBackground(Color.white);
         
@@ -82,6 +101,103 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
+        //--------------------------------------------DONT TOUCH
+        
+        
+//        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+//        jPanel1.setLayout(jPanel1Layout);
+//        jPanel1Layout.setHorizontalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addComponent(jLabel1)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton3)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+//                .addComponent(jButton2)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton1)
+//                .addContainerGap())
+//        );
+//        jPanel1Layout.setVerticalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                    .addComponent(jLabel1)
+//                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(jButton1)
+//                    .addComponent(jButton2)
+//                    .addComponent(jButton3))
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
+        
+//        jPanel1Layout.setHorizontalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addComponent(jLabel1)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton3)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+//                .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton2)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton1)
+//                .addContainerGap())
+//        );
+//        jPanel1Layout.setVerticalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                    .addComponent(jLabel1)
+//                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(jButton1)
+//                    .addComponent(jButton2)
+//                    .addComponent(jButton3)
+//                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
+                
+        
+//        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+//        jPanel1.setLayout(jPanel1Layout);
+//        jPanel1Layout.setHorizontalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addComponent(dijkstraButton)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+//                .addComponent(jLabel2)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(distanseField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+//                .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton2)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jButton1)
+//                .addContainerGap())
+//        );
+//        jPanel1Layout.setVerticalGroup(
+//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel1Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                    .addComponent(jButton1)
+//                    .addComponent(jButton2)
+//                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(dijkstraButton)
+//                    .addComponent(distanseField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(jLabel2))
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
         
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,12 +205,16 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(treeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dijkstraButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(distanseField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
@@ -105,14 +225,15 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dijkstraButton)
+                    .addComponent(distanseField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(treeButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-                
         
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -128,10 +249,24 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
+        treeButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treeButtonClick(evt);
+            }
+        });
+        
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConnect(evt);
+            }
+        });
+        
+        dijkstraButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dijkstraButtonClick(evt);
             }
         });
         
@@ -171,13 +306,35 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
+        widthField.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int buf = 0;
+                try {
+                    buf = Integer.parseInt(((JTextField)e.getSource()).getText());
+                } catch(Exception ex) {
+                    buf = Integer.MAX_VALUE;
+                }  
+                graph.syncWidthField(buf);
+            }
+        });
+        
     }
     
     private void jButtonTest(java.awt.event.ActionEvent evt) {                                         
         
         //jPanel2.setLayout(null);
         
-        System.out.println("jButtonTestClick");
+        dbg("jButtonTestClick");
         //GraphPointComponent gp = new GraphPointComponent(50, 50);
         //gp.setSelect(true);
         //Component c = jPanel2.add(gp);
@@ -196,10 +353,32 @@ public class Main extends javax.swing.JFrame {
         //System.out.println(jPanel2.getComponentCount());
     }
     
+    private void dijkstraButtonClick(java.awt.event.ActionEvent evt) {                                         
+        GraphPoint[] gps =  graph.getSelectedPoints();
+        GraphElement[] ges;// = GraphElement[0];
+        if (gps.length == 2) {
+            ges = graph.getDijkstraPath(gps[0], gps[1]);
+        } else {
+            return;
+        }
+        if (ges == null) {
+            distanseField.setText("Infinit");
+            return;
+        }
+        int dist = 0;
+        for (int i = 0; i < ges.length; i++) {
+            ges[i].getComponent().setColor(TREEANDMINIMUMCOLOR);
+            if (GraphLine.class.isInstance(ges[i])) {
+                dist += ((GraphLine)ges[i]).getWeight();
+            }
+        }
+        distanseField.setText(dist + "");
+    }
+    
     private void jButtonConnect(java.awt.event.ActionEvent evt) {  
         
         GraphPoint[] gps = graph.getSelectedPoints();
-        System.out.println("gps.length " + gps.length);
+        dbg("gps.length " + gps.length);
         if (gps.length == 2) {
             graph.addLine(gps[0], gps[1]);
             graph.deselectAll();
@@ -228,15 +407,25 @@ public class Main extends javax.swing.JFrame {
     private void jButtonDelete(java.awt.event.ActionEvent evt) {                                         
         jPanel2.removeAll();
         jPanel2.repaint();
-        this.graph = new Graph(jPanel2);
+        this.graph = new Graph(jPanel2, widthField);
+    }
+    
+    private void treeButtonClick(java.awt.event.ActionEvent evt) {                                         
+        GraphElement[] ges = graph.getMinimalSpanningTree();
+        if (ges == null) dbg("@");
+        for (int i = 0; i < ges.length; i++) {
+            ges[i].getComponent().setColor(TREEANDMINIMUMCOLOR);
+        }
     }
     
     public static void main(String[] args) {
-        new Main().setVisible(true);
+        Main m = new Main();
+        m.setVisible(true);
+        m.graph.TEST_FUNC();
     }
     
     private void JPanelAddGraphPoint(JPanel jp, GraphPointComponent gp) {
-        System.out.println("NOT WORK ANYMORE [JPanelAddGraphPoint]");
+        dbg("NOT WORK ANYMORE [JPanelAddGraphPoint]");
 //        System.out.println("JPanelAddGraphPoint");
 //        Component cp = jp.add(gp);
 //        cp.addMouseListener(new MouseListener() {

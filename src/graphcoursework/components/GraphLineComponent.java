@@ -97,9 +97,9 @@ public class GraphLineComponent extends GraphComponent{
         int weight = ((GraphLine)this.getGraphElement()).getWeight();
         // НЕ ДОЛЖНО БЫТЬ ТАК. ВОЗМОЖНО ПОДУМАТЬ НАД АРХИТЕКТУРОЙ
         
-        System.out.println(fontwidth);
+        //System.out.println(fontwidth);
         int stringwidht = ((weight+"").length()) * fontwidth;
-        System.out.println("sw = " + stringwidht);
+        //System.out.println("sw = " + stringwidht);
         //g2d.drawString(x1 + " l " + y1, x1 + ((x2-x1) / 2), y1 + ((y2-y1) / 2));
         g2d.drawString(weight + "", x1+centersdeviation + (x2-x1  - stringwidht) / 2,
                 y1+centersdeviation + (y2-y1) / 2);
@@ -147,7 +147,7 @@ public class GraphLineComponent extends GraphComponent{
         
         double h = 2 * area / c;
         
-        System.out.println("h = " + h);
+        //System.out.println("h = " + h);
         
         return (h <= SELECT_RADIUS) && 
                 (x < Math.max(x1, x2) + SELECT_RADIUS) && (y < Math.max(y1, y2) + SELECT_RADIUS) &&

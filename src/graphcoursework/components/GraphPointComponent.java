@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import static debug.Debug.*;
+
 import graphcoursework.graph.*;
 
 /**
@@ -73,7 +75,7 @@ public class GraphPointComponent extends GraphComponent{
         //this.setSize(50, 50);
         //this.setLocation(x, y);
         
-        System.out.println("GraphPoint.paintComponent");
+        dbg("GraphPoint.paintComponent");
         Graphics2D g2d = (Graphics2D)g;
         
         //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -94,7 +96,7 @@ public class GraphPointComponent extends GraphComponent{
         
         g2d.drawRect(0, 0, SIZE - 1, SIZE - 1);
         
-        System.out.println("GraphPoint.paintComponent");
+        dbg("GraphPoint.paintComponent");
     }
     
     @Override

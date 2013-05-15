@@ -5,6 +5,7 @@
 package graphcoursework.graph;
 
 import graphcoursework.components.*;
+import java.util.HashMap;
 
 /**
  *
@@ -12,7 +13,7 @@ import graphcoursework.components.*;
  */
 public class GraphLine extends GraphElement{
     
-    private int weight = -Integer.MIN_VALUE;
+    private int weight = Integer.MAX_VALUE;
     
     private GraphPoint point1, point2;
     
@@ -39,4 +40,13 @@ public class GraphLine extends GraphElement{
         this.point1 = point1;
         this.point2 = point2;
     }
+    
+    public GraphPoint getFirst() {
+        return this.point1;
+    }
+    
+    public GraphPoint getSecond() {
+        return this.point2;
+    }
+    
 }

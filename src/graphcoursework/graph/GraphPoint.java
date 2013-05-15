@@ -14,7 +14,7 @@ import graphcoursework.components.*;
  */
 public class GraphPoint extends GraphElement{
     
-    private HashMap<Integer, GraphLine> lines;
+    private HashMap<Integer, GraphLine> lines = new HashMap();
     
     public GraphPoint(int id) {
         super(id);
@@ -34,6 +34,10 @@ public class GraphPoint extends GraphElement{
     
     public void removeLine(GraphLine gl) {
         lines.remove(gl.getId());
+    }
+    
+    public HashMap getLines() {
+        return this.lines;
     }
     
 }

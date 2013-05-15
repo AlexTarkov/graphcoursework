@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
+import static debug.Debug.*;
+
 /**
  *
  * @author alex
@@ -35,16 +37,16 @@ public class GraphComponent extends JComponent{
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("ComponentClick.");
+                dbg("ComponentClick.");
                 GraphComponent gc = (GraphComponent)e.getSource();
                 if (e.getButton() == 1) {
                     gc.changeSelect();
-                    return;
+                    gc.getGraphElement().getGraph().syncWidthField();
+//                    if (gc.getSelect()) 
+//                    return;
                 }
                 
                 Graph graph = gc.getGraphElement().getGraph();
-                //System.out.println("Graph: " + graph);
-                //System.out.println("GraphPoint: " + gpc.getGraphPoint());
                 if (e.getButton() == 3) {
                     graph.removeElement(gc.getGraphElement());
                 }
