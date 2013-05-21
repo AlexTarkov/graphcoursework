@@ -90,6 +90,7 @@ public class GraphComponent extends JComponent{
     public void setSelect(boolean select) {
         this.selected = select;
         this.setColor(getSelect() ? this.SELECT_COLOR : this.NOSELECT_COLOR);
+        this.getGraphElement().getGraph().setSelectGraphElement(this.getGraphElement(), select);
         //this.stateChange();
     }
     

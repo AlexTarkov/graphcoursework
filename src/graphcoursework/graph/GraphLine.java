@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class GraphLine extends GraphElement{
     
-    private int weight = Integer.MAX_VALUE;
+    private int weight = 0;
     
     private GraphPoint point1, point2;
     

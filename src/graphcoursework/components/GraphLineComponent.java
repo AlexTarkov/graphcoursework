@@ -18,11 +18,14 @@ import java.awt.event.MouseListener;
 public class GraphLineComponent extends GraphComponent{
     
     public static final float BOLD_SELECT = 3;
-    public static final float BOLD_NOSELECT = 2;
+    public static final float BOLD_NOSELECT = 1;
     //public static Color SELECT_COLOR = new Color(204, 0, 0);
     //public static Color NOSELECT_COLOR = new Color(102, 102, 102);
     public static final int SELECT_RADIUS = 7;
     public static final Color TEXT_COLOR = new Color(0,0,0);
+    
+    public static final double ANGLE_OF_ARROW = 5 * Math.PI/4;
+    public static final double ARROW_LENGTH = 20;
     
     private GraphPointComponent point1, point2;
 
@@ -82,11 +85,31 @@ public class GraphLineComponent extends GraphComponent{
         
         Stroke temp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(this.getSelect() ? BOLD_SELECT : BOLD_NOSELECT));
-        g2d.drawLine(
-                point1.getCenter().x - getLocation().x, 
-                point1.getCenter().y - getLocation().y, 
-                point2.getCenter().x - getLocation().x, 
-                point2.getCenter().y - getLocation().y);
+        
+        int x1,x2,y1,y2;
+        x1 = point1.getCenter().x - getLocation().x;
+        y1 = point1.getCenter().y - getLocation().y;
+        x2 = point2.getCenter().x - getLocation().x;
+        y2 = point2.getCenter().y - getLocation().y;
+        
+        g2d.drawLine(x1, y1, x2, y2);
+        
+        // DRAW ARROW
+        double a, b, c;
+        a = x2-x1;
+        b = y2-y1;
+        a *= 0.8;
+        b *= 0.8;
+        c = Math.sqrt(a*a + b*b);
+        double x3,x4,y3,y4;
+        // x3 = x1 + 
+        x3  = x1 + a + (Math.min(c*0.1, ARROW_LENGTH)) * (Math.cos(ANGLE_OF_ARROW) * (a / c) + Math.sin(ANGLE_OF_ARROW) * (b / c));
+        y3  = y1 + b + (Math.min(c*0.1, ARROW_LENGTH)) * (Math.sin(ANGLE_OF_ARROW) * (b / c) - Math.cos(ANGLE_OF_ARROW) * (a / c));
+        g2d.drawLine((int)Math.round(x1 + a), (int)Math.round(y1 + b), (int)Math.round(x3), (int)Math.round(y3));
+        x3  = x1 + a + (Math.min(c*0.1, ARROW_LENGTH)) * (Math.cos(ANGLE_OF_ARROW) * (a / c) - Math.sin(ANGLE_OF_ARROW) * (b / c));
+        y3  = y1 + b + (Math.min(c*0.1, ARROW_LENGTH)) * (Math.sin(ANGLE_OF_ARROW) * (b / c) + Math.cos(ANGLE_OF_ARROW) * (a / c));
+        g2d.drawLine((int)Math.round(x1 + a), (int)Math.round(y1 + b), (int)Math.round(x3), (int)Math.round(y3));
+        
         g2d.setStroke(temp);
         
         // print text
@@ -101,10 +124,17 @@ public class GraphLineComponent extends GraphComponent{
         int stringwidht = ((weight+"").length()) * fontwidth;
         //System.out.println("sw = " + stringwidht);
         //g2d.drawString(x1 + " l " + y1, x1 + ((x2-x1) / 2), y1 + ((y2-y1) / 2));
-        g2d.drawString(weight + "", x1+centersdeviation + (x2-x1  - stringwidht) / 2,
-                y1+centersdeviation + (y2-y1) / 2);
+        g2d.drawString(weight + "", this.x1+centersdeviation + (this.x2-this.x1  - stringwidht) / 2,
+                this.y1+centersdeviation + (this.y2-this.y1) / 2);
         
         //g2d.drawString(weight + "", 0,10);
+        
+//        double a = Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
+//        double b = Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
+//        
+//        doubldouble e c = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+//        
+////        Math.a
         
         if (!TEST) return;
         
@@ -136,9 +166,6 @@ public class GraphLineComponent extends GraphComponent{
         double b = Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
         
         double c = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-        
-        //double cos = Math.abs((x1-x2) / gip);
-        //double sin = Math.abs((y1-y2) / gip);
         
         //System.out.println("[ " + x + " " + y + " ]");
         

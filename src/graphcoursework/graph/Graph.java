@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.util.*;
 //import java.util.
 import javax.swing.*;
+import static debug.Debug.*;
 
 import graphcoursework.components.*;
 import static debug.Debug.*;
@@ -24,9 +25,13 @@ public class Graph {
     private int POINT_ID;
     private int LINE_ID;
     
+    private boolean oriented = false;
+    
     private HashMap<Integer, GraphPoint> points;
     
     private HashMap<Integer, GraphLine> lines;
+    
+    private LinkedHashMap<Integer, GraphElement> selectlist;
     
     //private HashMap<Integer, HashMap<Integer, GraphPoint>> graphmap;
     
@@ -46,11 +51,17 @@ public class Graph {
         this.LINE_ID = 0;
         this.points = new HashMap();
         this.lines = new HashMap();
+        this.selectlist = new LinkedHashMap();
         this.panel = panel;
         this.widthfield = jtf;
     }
     
     //==========================================================================
+    
+    public GraphElement[] getDijkstraPath() {
+        GraphPoint[] gpm = getSelectedPointInOrder();
+        return gpm == null ? null : getDijkstraPath(gpm[0], gpm[1]);
+    }
     
     public GraphElement[] getDijkstraPath(GraphPoint gs, GraphPoint gf) {
         GraphElement[] path;
@@ -106,6 +117,10 @@ public class Graph {
                 bufgl= itgl.next();
                 GraphLine gl = bufgl.getValue();
                 dbg("gl width = " + gl.getWeight());
+                if (this.oriented && (gl.getFirst().getId() != now.getId())) {
+                    //dbg("CONTINUE");
+                    continue;
+                }
                 GraphPoint gp = gl.getFirst().getId() != now.getId() ? gl.getFirst() : gl.getSecond();
                 // если ориентированный граф, то исправить это
                 if (tocheckpoints.get(gp.getId()) != null && 
@@ -177,6 +192,8 @@ public class Graph {
         
     }
     
+    
+    
     //==========================================================================
     
     public void addPoint(GraphPointComponent gpc) {
@@ -245,6 +262,48 @@ public class Graph {
         cp.setSize(glc.getSize());
         changed();
         return gl;
+    }
+    
+    public GraphLine addLine() {
+//        if (this.selectlist.size() != 2) {
+//            return null;
+//        }
+//        Iterator<Map.Entry<Integer, GraphElement>> it = this.selectlist.entrySet().iterator();
+//        GraphElement gp1 = it.next().getValue();
+//        GraphElement gp2 = it.next().getValue();
+//        if (!(GraphPoint.class.isInstance(gp1) && GraphPoint.class.isInstance(gp2))) {
+//            return null;
+//        }
+        GraphPoint[] gpm = getSelectedPointInOrder();
+        return gpm == null ? null : addLine(gpm[0], gpm[1]);
+//        this.lines.put(gl.getId(), gl);
+//        gp1.addLine(gl);
+//        gp2.addLine(gl);
+//        
+//        GraphLineComponent glc = new GraphLineComponent(gl, (GraphPointComponent)gp1.getComponent(), (GraphPointComponent)gp2.getComponent());
+//        //ИЗМЕНИТЬ АПИ СОЗДАНИЯ РЕБРА И ЭТОТ ВЫЗОВ
+//        
+//        gl.setComponent(glc);
+//        
+//        Component cp = panel.add(glc);
+//        cp.setLocation(glc.getLocation());
+//        cp.setSize(glc.getSize());
+//        changed();
+//        return gl;
+    }
+    
+    private GraphPoint[] getSelectedPointInOrder() {
+        if (this.selectlist.size() != 2) {
+            return null;
+        }
+        Iterator<Map.Entry<Integer, GraphElement>> it = this.selectlist.entrySet().iterator();
+        GraphElement gp1 = it.next().getValue();
+        GraphElement gp2 = it.next().getValue();
+        if (!(GraphPoint.class.isInstance(gp1) && GraphPoint.class.isInstance(gp2))) {
+            return null;
+        }
+        GraphPoint[] gpm = {(GraphPoint)gp1, (GraphPoint)gp2};
+        return gpm;
     }
     
     public void removeLine(GraphLine gl) {
@@ -320,6 +379,14 @@ public class Graph {
         this.panel.repaint();
     }
     
+    public void setSelectGraphElement(GraphElement ge, boolean b) {
+        if (!b) {
+            this.selectlist.remove(ge.getId());
+        } else {
+            this.selectlist.put(ge.getId(), ge);
+        }
+    }
+    
     public void syncWidthField() {
         GraphLine[] gls = getSelectedLines();
         GraphPoint[] gps = getSelectedPoints();
@@ -339,20 +406,25 @@ public class Graph {
     }
     
     public void TEST_FUNC() {
-        GraphPoint[] gps = new GraphPoint[6];
-        gps[0] = this.addPoint(50, 50);
-        gps[1] = this.addPoint(50, 100);
-        gps[2] = this.addPoint(100, 100);
-        gps[3] = this.addPoint(150, 150);
-        gps[4] = this.addPoint(100, 200);
-        gps[5] = this.addPoint(50, 150);
-        
-        this.addLine(gps[0], gps[1]).setWeight(10);
-        this.addLine(gps[1], gps[2]).setWeight(20);
-        this.addLine(gps[2], gps[3]).setWeight(10);
-        this.addLine(gps[3], gps[4]).setWeight(50);
-        this.addLine(gps[4], gps[5]).setWeight(10);
-        this.addLine(gps[5], gps[2]).setWeight(10);
+//        GraphPoint[] gps = new GraphPoint[6];
+//        gps[0] = this.addPoint(50, 50);
+//        gps[1] = this.addPoint(50, 100);
+//        gps[2] = this.addPoint(100, 100);
+//        gps[3] = this.addPoint(150, 150);
+//        gps[4] = this.addPoint(100, 200);
+//        gps[5] = this.addPoint(50, 150);
+//        
+//        this.addLine(gps[0], gps[1]).setWeight(10);
+//        this.addLine(gps[1], gps[2]).setWeight(20);
+//        this.addLine(gps[2], gps[3]).setWeight(10);
+//        this.addLine(gps[3], gps[4]).setWeight(50);
+//        this.addLine(gps[4], gps[5]).setWeight(10);
+//        this.addLine(gps[5], gps[2]).setWeight(10);
+    }
+    
+    public void setOriented(boolean t) {
+        this.oriented = t;
+        changed();
     }
     
 }
