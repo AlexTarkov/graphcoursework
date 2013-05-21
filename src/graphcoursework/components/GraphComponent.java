@@ -42,8 +42,6 @@ public class GraphComponent extends JComponent{
                 if (e.getButton() == 1) {
                     gc.changeSelect();
                     gc.getGraphElement().getGraph().syncWidthField();
-//                    if (gc.getSelect()) 
-//                    return;
                 }
                 
                 Graph graph = gc.getGraphElement().getGraph();

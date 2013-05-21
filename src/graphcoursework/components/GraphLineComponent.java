@@ -19,8 +19,6 @@ public class GraphLineComponent extends GraphComponent{
     
     public static final float BOLD_SELECT = 3;
     public static final float BOLD_NOSELECT = 1;
-    //public static Color SELECT_COLOR = new Color(204, 0, 0);
-    //public static Color NOSELECT_COLOR = new Color(102, 102, 102);
     public static final int SELECT_RADIUS = 7;
     public static final Color TEXT_COLOR = new Color(0,0,0);
     
@@ -29,10 +27,6 @@ public class GraphLineComponent extends GraphComponent{
     
     private GraphPointComponent point1, point2;
 
-//    {
-//        GraphLineComponent.SELECT_COLOR = new Color(0, 204, 0);
-//        GraphLineComponent.NOSELECT_COLOR = new Color(102, 102, 102);
-//    }
     
     //centers of connecting point
     private int x1, x2, y1, y2;
@@ -43,9 +37,6 @@ public class GraphLineComponent extends GraphComponent{
     
     public GraphLineComponent(GraphLine gl, GraphPointComponent gp1, GraphPointComponent gp2) {
         super(gl);
-        //this.TEST = false;
-        
-        //graphline = gl;
         point1 = gp1;
         point2 = gp2;
         
@@ -70,7 +61,6 @@ public class GraphLineComponent extends GraphComponent{
     
     @Override
     public Dimension getSize() {
-        //System.out.println();
         return new Dimension(Math.abs(point1.getCenter().x - point2.getCenter().x) + centersdeviation * 2, 
                 Math.abs(point1.getCenter().y - point2.getCenter().y) + centersdeviation * 2);
     }
@@ -122,20 +112,10 @@ public class GraphLineComponent extends GraphComponent{
         
         //System.out.println(fontwidth);
         int stringwidht = ((weight+"").length()) * fontwidth;
-        //System.out.println("sw = " + stringwidht);
-        //g2d.drawString(x1 + " l " + y1, x1 + ((x2-x1) / 2), y1 + ((y2-y1) / 2));
+
         g2d.drawString(weight + "", this.x1+centersdeviation + (this.x2-this.x1  - stringwidht) / 2,
                 this.y1+centersdeviation + (this.y2-this.y1) / 2);
-        
-        //g2d.drawString(weight + "", 0,10);
-        
-//        double a = Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-//        double b = Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
-//        
-//        doubldouble e c = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-//        
-////        Math.a
-        
+
         if (!TEST) return;
         
         g2d.setColor(new Color(204, 204, 204));
@@ -180,11 +160,6 @@ public class GraphLineComponent extends GraphComponent{
                 (x < Math.max(x1, x2) + SELECT_RADIUS) && (y < Math.max(y1, y2) + SELECT_RADIUS) &&
                 (x > Math.min(x1, x2) - SELECT_RADIUS) && (y > Math.min(y1, y2) - SELECT_RADIUS);
     }
-    
-    //=======================================================GRAPH FUNC
-    
-//    public GraphLine getGraphLine() {
-//        return this.graphline;
-//    }
+
     
 }

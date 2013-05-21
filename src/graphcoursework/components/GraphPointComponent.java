@@ -24,9 +24,6 @@ public class GraphPointComponent extends GraphComponent{
     
     public static final int SIZE = COMPONENT_SIZE - 1;
 
-    //public static Color SELECT_COLOR = new Color(0,204,0);
-    //public static Color NOSELECT_COLOR = Color.BLACK;
-    
     public static final int CIRCLE_RAD_SELECT = (SIZE / 2) / 2;
     public static final int CIRCLE_RAD_NOSELECT = (SIZE / 2) / 2;
     
@@ -37,11 +34,6 @@ public class GraphPointComponent extends GraphComponent{
     private int centerx, centery;
     
     private boolean TEST = false;
-    
-//    {
-//        GraphPointComponent.SELECT_COLOR = new Color(0,204,0);
-//        GraphPointComponent.NOSELECT_COLOR  = new Color(0,204,0);
-//    }
     
     @Override
     public Point getLocation() {
@@ -70,22 +62,14 @@ public class GraphPointComponent extends GraphComponent{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        
-        //this.setSize(50, 50);
-        //this.setLocation(x, y);
-        
+
         dbg("GraphPoint.paintComponent");
         Graphics2D g2d = (Graphics2D)g;
-        
-        //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        //Color col = isSelected ? SELECT_COLOR : NOSELECT_COLOR;
+
         int rad = getSelect() ? CIRCLE_RAD_SELECT :  CIRCLE_RAD_NOSELECT;
         int radbor = getSelect() ? CIRCLE_BORDER_RAD_SELECT :  CIRCLE_BORDER_RAD_NOSELECT;
         
         g2d.setColor(getColor());
-        //g2d.setBackground(col);
         
         g2d.fillOval((SIZE / 2) - rad, (SIZE / 2) - rad, rad * 2, rad * 2);
         g2d.drawOval(0, 0, radbor * 2, radbor * 2);
@@ -101,10 +85,7 @@ public class GraphPointComponent extends GraphComponent{
     
     @Override
     public boolean contains(int x, int y) {
-        //System.out.println("contains");
-        //return super.contains(x, y);
         int radbor = getSelect() ? CIRCLE_BORDER_RAD_SELECT :  CIRCLE_BORDER_RAD_NOSELECT;
-        //return false; //x * x
         int xx = x - radbor, yy = y - radbor;
         return (xx * xx) + (yy * yy) <= (radbor * radbor);
     }
